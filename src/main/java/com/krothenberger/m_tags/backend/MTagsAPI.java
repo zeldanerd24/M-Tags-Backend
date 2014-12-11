@@ -35,27 +35,25 @@ public class MTagsAPI {
     @ApiMethod(name = "test", httpMethod = "get", path = "test")
     public Item test() {
         String url = null;
+        Connection conn = null;
         try {
             if (SystemProperty.environment.value() == SystemProperty.Environment.Value.Production) {
                 Class.forName("com.mysql.jdbc.GoogleDriver");
-                url = "jdbc:google:mysql://zippy-haiku-785:tagsql/test";
+                url = "jdbc:google:mysql://zippy-haiku-785:tagsql/test?user=root";
+                conn = DriverManager.getConnection(url);
             }
             else {
                 Class.forName("com.mysql.jdbc.Driver");
                 url = "jdbc:mysql://127.0.0.1:3306/test";
+                conn = DriverManager.getConnection(url, "krothenberger", "zeldanerd24");
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
 
-        try {
-            Connection conn = DriverManager.getConnection(url, "krothenberger", "zeldanerd24");
             conn.close();
             return new Item("Success!");
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
+
     }
 }
