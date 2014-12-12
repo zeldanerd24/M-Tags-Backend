@@ -17,27 +17,27 @@ public class Item {
         this.item_url = item_url;
     }
 
-    public String getItem_url() {
+    public String getItemUrl() {
         return item_url;
     }
 
-    public void setItem_url(String item_url) {
+    public void setItemUrl(String item_url) {
         this.item_url = item_url;
     }
 
-    public int getItem_id() {
+    public int getItemId() {
         return item_id;
     }
 
-    public void setItem_id(int item_id) {
+    public void setItemId(int item_id) {
         this.item_id = item_id;
     }
 
-    public String getItem_name() {
+    public String getItemName() {
         return item_name;
     }
 
-    public void setItem_name(String item_name) {
+    public void setItemName(String item_name) {
         this.item_name = item_name;
     }
 
