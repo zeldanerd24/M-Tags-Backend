@@ -3,7 +3,6 @@ package com.krothenberger.m_tags.backend;
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.Named;
-import com.google.appengine.api.utils.SystemProperty;
 import com.krothenberger.m_tags.util.ConnectDB;
 
 import java.sql.*;
@@ -24,21 +23,11 @@ public class MTagsAPI {
 
     @ApiMethod(name = "list.items", httpMethod = "get", path = "items")
     public ArrayList<Item> listItems() {
-        String url;
         Connection conn = null;
         ResultSet resultSet = null;
         ArrayList<Item> items = new ArrayList<>();
         try {
-            if (SystemProperty.environment.value() == SystemProperty.Environment.Value.Production) {
-                Class.forName("com.mysql.jdbc.GoogleDriver");
-                url = "jdbc:google:mysql://zippy-haiku-785:tagsql/mtags_db?user=root";
-                conn = DriverManager.getConnection(url);
-            }
-            else {
-                Class.forName("com.mysql.jdbc.Driver");
-                url = "jdbc:mysql://127.0.0.1:3306/mtags_db";
-                conn = DriverManager.getConnection(url, "krothenberger", "zeldanerd24");
-            }
+            conn = ConnectDB.getDBConnection();
 
             PreparedStatement statement = conn.prepareStatement("select * from Items", ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY);
@@ -74,7 +63,6 @@ public class MTagsAPI {
 
     @ApiMethod(name = "get.item", httpMethod = "get", path = "items/{itemId}")
     public Item getItem(@Named("itemId") int itemId) {
-        String url;
         Connection conn = null;
         ResultSet resultSet = null;
         try {
