@@ -1,0 +1,5 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+    <test ITEM_ID="1" ITEM_NAME="Test" ITEM_URL="www.test.com"/>
+    <test ITEM_ID="2" ITEM_NAME="Test2" ITEM_URL="www.test2.com"/>
+</dataset>
