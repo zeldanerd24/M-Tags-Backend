@@ -43,7 +43,7 @@ public class Item {
 
     @Override
     public boolean equals(Object obj) {
-        if(obj.getClass() != Item.class){
+        if(!(obj instanceof Item)){
             return false;
         }
 
