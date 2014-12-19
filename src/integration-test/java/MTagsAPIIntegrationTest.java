@@ -5,10 +5,13 @@ import static org.junit.Assert.assertTrue;
 /**
  * Created by kevinrothenberger on 12/19/14.
  */
-public class ITMTagsAPI {
+public class MTagsAPIIntegrationTest {
 
     @Test
-    public void test() {
+    public void listItemsE2ETest() {
+
+
+
         assertTrue(true);
     }
 
