@@ -41,4 +41,15 @@ public class Item {
         this.item_name = item_name;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if(obj.getClass() != Item.class){
+            return false;
+        }
+
+        Item test = (Item) obj;
+
+        return (test.getItemId()==item_id && test.getItemName().equals(item_name) && test.getItemUrl().equals(item_url));
+    }
+
 }

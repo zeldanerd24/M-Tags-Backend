@@ -3,26 +3,22 @@ package com.krothenberger.m_tags.backend;
 import com.krothenberger.m_tags.util.ConnectDB;
 import org.dbunit.IDatabaseTester;
 import org.dbunit.JdbcDatabaseTester;
-import org.dbunit.database.DatabaseDataSet;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSet;
-import org.dbunit.ext.h2.H2Connection;
 import org.h2.jdbcx.JdbcConnectionPool;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runner.Runner;
-import org.junit.runners.JUnit4;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import javax.sql.DataSource;
-import java.io.FileInputStream;
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.Statement;
+import java.util.ArrayList;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.when;
@@ -37,6 +33,8 @@ public class MTagsAPITest {
 
     private IDatabaseTester tester;
 
+    private MTagsAPI mTagsAPI;
+
     @Before
     public void setUp() throws Exception {
         mockStatic(ConnectDB.class);
@@ -46,7 +44,7 @@ public class MTagsAPITest {
         Connection connection = ds.getConnection();
 
 
-        if(connection.createStatement().executeUpdate("create table test(item_id int,item_name varchar(200),item_url varchar(200));") != 0){
+        if(connection.createStatement().executeUpdate("create table Items(item_id int,item_name varchar(200),item_url varchar(200));") != 0){
             throw new Exception("Create table failed");
         }
 
@@ -57,6 +55,8 @@ public class MTagsAPITest {
         tester.onSetup();
 
         when(ConnectDB.getDBConnection()).thenReturn(connection);
+
+        mTagsAPI = new MTagsAPI();
     }
 
     @After
@@ -66,6 +66,37 @@ public class MTagsAPITest {
 
     @Test
     public void listItemsTest() throws Exception {
+
+        ArrayList<Item> actualItems = mTagsAPI.listItems();
+
+        ArrayList<Item> expectedItems = new ArrayList<>();
+        expectedItems.add(new Item(1, "Test", "www.test.com"));
+        expectedItems.add(new Item(2, "Test2", "www.test2.com"));
+
+        assertEquals(expectedItems.size(), actualItems.size());
+
+        for(int i=0; i<expectedItems.size(); i++) {
+            assertEquals(expectedItems.get(i), actualItems.get(i));
+        }
+
+    }
+
+    @Test
+    public void getItemTest() throws Exception {
+
+        Item actualItem = mTagsAPI.getItem(1);
+        Item expectedItem = new Item(1, "Test", "www.test.com");
+
+        assertEquals(expectedItem, actualItem);
+
+    }
+
+    @Test
+    public void getItemDNETest() throws Exception {
+
+        Item expectedItem = mTagsAPI.getItem(3);
+
+        assertNull(expectedItem);
 
     }
 
