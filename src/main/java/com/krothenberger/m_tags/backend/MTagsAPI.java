@@ -8,10 +8,6 @@ import com.krothenberger.m_tags.util.ConnectDB;
 import java.sql.*;
 import java.util.ArrayList;
 
-/**
-  * Add your first API methods in this class, or you may create another class. In that case, please
-  * update your web.xml accordingly.
- **/
 @Api(
         name = "mtags",
         version = "v1",
